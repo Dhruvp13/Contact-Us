@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <form onsubmit="sendEmail(); reset(); return false;">
+            <img src="./HAARIOT LOGO.jpg" height="100px" width="100px">
+            <h3>Get in Touch</h3>
+            <input type="text" id="name" placeholder="Your Name" required>
+            <input type="email" id="email" placeholder="Email ID" required>
+            <input type="text" id="phone" placeholder="Phone Number" required>
+            <p>Services</p>
+            <span>
+                <input type="checkbox" value="JavaScript" class="checkbox" id="javascript"> &nbsp; JavaScript &nbsp;
+                <input type="checkbox" value="C" class="checkbox" id="c"> &nbsp; C &nbsp;
+                <input type="checkbox" value="Python" class="checkbox" id="python"> &nbsp; Python &nbsp;
+                <input type="checkbox" value="Java" class="checkbox" id="java"> &nbsp; Java &nbsp;
+                <input type="checkbox" value="Ruby" class="checkbox" id="ruby"> &nbsp; Ruby &nbsp;
+                <input type="checkbox" value="Scala" class="checkbox" id="scala"> &nbsp; Scala
+            </span>
+            <textarea id="message" rows="4" placeholder="How can we help you?"></textarea>
+            <button type="submit">Send</button>
+        </form>
+    </div>
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+    <script>
+        var listArray = [];
+        var checkboxes = document.querySelectorAll('.checkbox');
+
+        for(var checkbox of checkboxes){
+            checkbox.addEventListener('click',function(){
+                if(this.checked == true)
+                {
+                    listArray.push(this.value);
+                }
+                else
+                {
+                    listArray = listArray.filter(e => e!== this.value);
+                }
+            })
+        }
+        function sendEmail() {
+            Email.send({
+                SecureToken: "d3e4443b-182f-4305-9357-88491fc09aa2",
+                To: 'iamdhruv921@gmail.com',
+                From: "iamdhruv921@gmail.com",
+                Subject: "Enquiry From " + document.getElementById("name").value + "<br>",
+                Body: "Name : " + document.getElementById("name").value
+                + "<br> Email : " + document.getElementById("email").value
+                + "<br> Phone no : " + document.getElementById("phone").value
+                + "<br> Services : " + listArray
+                + "<br> Message : " + document.getElementById("message").value
+            }).then(
+                // message => alert(message)
+                swal({
+                    title: "Successfully Sent ! ",
+                    text: "We'll reach within 72 hours!",
+                    icon: "success",
+                    button: "Ok",
+                })
+            );
+        }
+    </script>
+</body>
+
+</html>
